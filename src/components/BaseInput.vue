@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     clearError() {
-      this.$emit('update:error', '')
+      this.$emit('update:error', ''), this.$emit('update:modelValue', '')
     }
   }
 }

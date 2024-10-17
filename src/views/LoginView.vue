@@ -5,12 +5,11 @@ import { useAuthStore } from '@/stores/authentication'
 import router from '../router/index'
 
 const authStore = useAuthStore()
-const hasToken = ref(authStore.isAuthenticated)
 
 onMounted(() => {
   watch(() => {
-    if (hasToken.value) {
-      router.push({ name: 'overview', params: { week: 1 } })
+    if (authStore.isAuthenticated) {
+      router.push({ name: 'home' })
     }
   })
 })

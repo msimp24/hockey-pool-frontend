@@ -1,21 +1,49 @@
 <script setup>
-defineProps(['matchups', 'week', 'isLoading', 'userPoolId'])
+defineProps(['matchups', 'week', 'isLoading', 'userPoolId', 'isCompleted'])
+
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useFetchPicks } from './../stores/fetchData'
+import { useFetchData } from './../stores/fetchData'
 const fetchPicksStore = useFetchPicks()
+const fetchDataStore = useFetchData()
 const router = useRouter()
 
+//Dashboard modal
+const invalidPick = ref(false)
+const modal = ref(false)
+
 const makePick = (userPoolId, matchupId, selectedTeam, week) => {
-  fetchPicksStore.makeWeeklyPick(userPoolId, matchupId, selectedTeam, week)
-  router.go({ name: 'overview', params: { week: week } })
+  let isValid = true
+  modal.value = false
+
+  fetchDataStore.userWeeklyPicks.forEach((el) => {
+    if (el === selectedTeam) {
+      isValid = false
+    }
+  })
+
+  if (!isValid) {
+    alert('You have already picked this team')
+    //  modal.value = true
+    //invalidPick.value = true
+  } else {
+    modal.value = false
+    invalidPick.value = false
+    fetchPicksStore.makeWeeklyPick(userPoolId, matchupId, selectedTeam, week)
+    router.go({ name: 'overview', params: { week: week } })
+  }
 }
+
+// checks if the user has already selected this team in a past week
 </script>
 
 <template>
-  <div v-if="matchups" class="wrapper">
+  <div v-if="matchups" class="wrapper" :class="{ disable: isCompleted }">
     <p v-if="isLoading">Loading...</p>
     <p v-if="week == 19">No games due to All-Star Break</p>
+
     <div v-else class="matchup-wrapper" v-for="item in matchups" :key="item">
       <h3>{{ item.date.slice(0, 10) }}</h3>
       <div class="location-box">
@@ -31,7 +59,8 @@ const makePick = (userPoolId, matchupId, selectedTeam, week) => {
         <div class="score">{{ item.visitingTeam.score }}</div>
         <div class="score">{{ item.homeTeam.score }}</div>
       </div>
-      <div class="btn-container">
+
+      <div v-if="!isCompleted" class="btn-container">
         <button
           @click="makePick(userPoolId, item._id, item.visitingTeam.name, week)"
           class="select-btn"
@@ -45,6 +74,7 @@ const makePick = (userPoolId, matchupId, selectedTeam, week) => {
           Select Home
         </button>
       </div>
+
       <br />
     </div>
   </div>

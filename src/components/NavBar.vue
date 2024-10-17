@@ -1,25 +1,22 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { onMounted, watch } from 'vue'
 import { useAuthStore } from '@/stores/authentication'
-import router from '../router/index'
 
 const authStore = useAuthStore()
 
 const signOutUser = () => {
   authStore.logout()
-  router.push({ name: 'login' })
 }
 
 const links = ref([
   {
-    name: 'Overview',
-    link: '/overview/1'
+    name: 'Home',
+    link: '/'
   },
   {
-    name: 'Profile',
-    link: '/profile'
+    name: 'Dashboard',
+    link: '/dashboard/2'
   }
 ])
 </script>
@@ -33,9 +30,9 @@ const links = ref([
   </div>
 
   <nav v-if="authStore.isAuthenticated" class="nav">
-    <RouterLink class="logo" to="/">
+    <a class="logo" href="/">
       <img src="/icons/sticks.svg" />
-    </RouterLink>
+    </a>
     <ul class="nav-list nav-list-primary">
       <li class="nav-item" v-for="item in links" :key="item.name">
         <RouterLink class="nav-link" :to="item.link">{{ item.name }} </RouterLink>

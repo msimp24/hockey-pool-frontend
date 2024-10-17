@@ -5,6 +5,7 @@ import { onMounted, ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import Matchups from './../components/Matchups.vue'
 import ChosenMatchup from './../components/ChosenMatchup.vue'
+import { useAuthStore } from '@/stores/authentication'
 
 const fetchDataStore = useFetchData()
 const fetchPicksStore = useFetchPicks()
@@ -16,6 +17,9 @@ const paramsWeek = ref(1)
 const paramsYear = ref(2024)
 
 const userPoolId = ref('')
+const test = ref('')
+
+const authStore = useAuthStore()
 
 const decrementWeek = () => {
   currWeek.value = currWeek.value - 1
@@ -26,7 +30,7 @@ const decrementWeek = () => {
     paramsYear.value = 2024
   }
 
-  router.push({ name: 'overview', params: { week: currWeek.value } })
+  router.push({ name: 'dashboard', params: { week: currWeek.value } })
 }
 const incrementWeek = () => {
   currWeek.value = currWeek.value + 1
@@ -36,10 +40,12 @@ const incrementWeek = () => {
   if (currWeek.value == 13) {
     paramsYear.value = 2025
   }
-  router.push({ name: 'overview', params: { week: currWeek.value } })
+  router.push({ name: 'dashboard', params: { week: currWeek.value } })
 }
 
 onMounted(() => {
+  authStore.checkTokenAndRedirect()
+
   watch(() => {
     if (paramsYear.value == 2024) {
       paramsWeek.value = currWeek.value + 39
@@ -51,6 +57,7 @@ onMounted(() => {
     userPoolId.value = fetchDataStore.userPoolId
     fetchDataStore.getWeeklyMatchups(paramsYear.value, paramsWeek.value)
     fetchPicksStore.getWeeklyPick(currWeek.value)
+    test.value = fetchDataStore.weekDate
   })
 })
 
@@ -61,32 +68,66 @@ const weeklyMatchups = computed(() => {
 const chosenMatchup = computed(() => {
   return fetchPicksStore.weeklyPick || null
 })
+
+const dateToday = computed(() => {
+  let today = new Date(Date.now())
+
+  let formattedDate = today.toISOString().split('T')[0]
+  return formattedDate
+})
+
+const weekDate = computed(() => {
+  return fetchDataStore.weekDate
+})
+
+const userWeeklyPicks = computed(() => {
+  return fetchDataStore.userWeeklyPicks
+})
+
+const isWeekCompleted = computed(() => {
+  if (weekDate.value < dateToday.value) {
+    return true
+  } else {
+    return false
+  }
+})
 </script>
 
 <template>
   <div class="header">
-    <img @click="decrementWeek" class="icon left" src="/icons/left-arrow.svg" alt="" />
+    <img
+      v-if="currWeek != 2"
+      @click="decrementWeek"
+      class="icon left"
+      src="/icons/left-arrow.svg"
+      alt=""
+    />
     <h1>Week {{ currWeek }}</h1>
-    <img @click="incrementWeek" class="icon right" src="/icons/right-arrow.svg" alt="" />
-  </div>
-
-  <div class="container">
-    <div class="row">
-      <ChosenMatchup :matchup="chosenMatchup" :week="week" />
+    <div v-if="weekDate">
+      <img
+        v-if="dateToday > weekDate.substring(0, 10)"
+        @click="incrementWeek"
+        class="icon right"
+        src="/icons/right-arrow.svg"
+        alt=""
+      />
     </div>
   </div>
 
   <div class="container">
     <div class="row">
       <div class="col">
+        <ChosenMatchup :matchup="chosenMatchup" :week="week" :isCompleted="isWeekCompleted" />
+      </div>
+      <div class="col">
         <Matchups
           :matchups="weeklyMatchups"
           :week="currWeek"
           :isLoading="fetchDataStore.isLoading"
           :userPoolId="userPoolId"
+          :isCompleted="isWeekCompleted"
         />
       </div>
-      <div class="col"></div>
     </div>
   </div>
 </template>
@@ -131,5 +172,19 @@ h1 {
   color: var(--primary-white);
   outline: 2px solid var(--primary-white);
   background: var(--primary-dark);
+}
+.row {
+  gap: 20px;
+}
+
+@media (width < 1000px) {
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .col {
+    margin: 0 auto;
+    max-width: 500px;
+  }
 }
 </style>

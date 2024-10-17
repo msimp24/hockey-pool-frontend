@@ -1,12 +1,43 @@
 <script setup>
-const props = defineProps(['matchup', 'week', 'isLoading', 'pick'])
+import { computed } from 'vue'
+const props = defineProps(['matchup', 'week', 'isLoading', 'isCompleted'])
+
+const isCorrectMatchup = computed(() => {
+  let winningTeam
+
+  if (props.matchup.matchup.visitingTeam.score > props.matchup.matchup.homeTeam.score) {
+    winningTeam = props.matchup.matchup.visitingTeam.name
+  } else {
+    winningTeam = props.matchup.matchup.homeTeam.name
+  }
+
+  if (pick.value === winningTeam) {
+    return true
+  } else {
+    return false
+  }
+})
+
+const pick = computed(() => {
+  return props.matchup.pick.selectedTeam
+})
+
+const dynamicClass = () => {
+  if (props.isCompleted) {
+    return isCorrectMatchup.value ? 'wrapperCorrect' : 'wrapperError'
+  } else {
+    return ''
+  }
+}
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="dynamicClass()">
     <p v-if="isLoading">Loading...</p>
 
     <div v-if="props.matchup && props.matchup.pick" class="matchup-wrapper">
+      <h1 v-if="isCorrectMatchup && props.isCompleted">Nice pick!</h1>
+      <h1 v-if="props.isCompleted && !isCorrectMatchup" class="idiot">Better luck next week</h1>
       <div class="location-box">
         <h3>Away</h3>
         <h3>Home</h3>
@@ -28,6 +59,17 @@ const props = defineProps(['matchup', 'week', 'isLoading', 'pick'])
 </template>
 
 <style scoped>
+.wrapperError {
+  border: red solid 4px;
+}
+.wrapperCorrect {
+  border: green solid 4px;
+}
+.idiot {
+  color: red;
+  text-align: center;
+}
+
 h1 {
   color: var(--secondary-dark);
   margin: 10px 0;

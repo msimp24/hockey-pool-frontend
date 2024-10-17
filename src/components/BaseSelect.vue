@@ -12,6 +12,10 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    error: {
+      type: String,
+      default: ''
     }
   }
 }
@@ -34,6 +38,10 @@ export default {
       {{ option }}
     </option>
   </select>
+
+  <p v-if="error" class="errorMessage">
+    {{ error }}
+  </p>
 </template>
 
 <style scoped>
@@ -43,5 +51,10 @@ label {
 }
 select {
   padding: 4px;
+}
+
+.errorMessage {
+  color: red;
+  margin: 5px 0;
 }
 </style>
