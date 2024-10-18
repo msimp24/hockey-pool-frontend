@@ -13,9 +13,11 @@ export const useFetchData = defineStore('getData', () => {
   const userWeeklyPicks = ref(null)
   const userPoolData = ref([])
 
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const getMatchupById = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/matchup/${id}`, {
+      const response = await fetch(`${apiUrl}/matchup/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           Accept: 'application/json',
@@ -32,7 +34,7 @@ export const useFetchData = defineStore('getData', () => {
   const getWeeklyMatchups = async (year, week) => {
     try {
       isLoading.value = true
-      const response = await fetch(`http://localhost:8080/matchup/weekly/${year}/${week}`, {
+      const response = await fetch(`${apiUrl}/matchup/weekly/${year}/${week}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           Accept: 'application/json',
@@ -51,7 +53,7 @@ export const useFetchData = defineStore('getData', () => {
 
   const getUserPoolId = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/user-pool`, {
+      const response = await fetch(`${apiUrl}/user-pool`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           Accept: 'application/json',
@@ -74,7 +76,7 @@ export const useFetchData = defineStore('getData', () => {
 
   const getUserPoolData = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/user-pool/get-pool-data`, {
+      const response = await fetch(`${apiUrl}/user-pool/get-pool-data`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           Accept: 'application/json',
@@ -115,10 +117,12 @@ export const useFetchPicks = defineStore('getpicks', () => {
   const isLoading = ref([])
   const weeklyPick = ref(null)
 
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const makeWeeklyPick = async (userPoolId, matchupId, selectedTeam, weekNumber) => {
     try {
       isLoading.value = true
-      const response = await fetch(`http://localhost:8080/picks/${userPoolId}/pick`, {
+      const response = await fetch(`${apiUrl}/picks/${userPoolId}/pick`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -149,7 +153,7 @@ export const useFetchPicks = defineStore('getpicks', () => {
   const getWeeklyPick = async (week) => {
     try {
       isLoading.value = true
-      const response = await fetch(`http://localhost:8080/picks/get-pick/${week}`, {
+      const response = await fetch(`${apiUrl}/picks/get-pick/${week}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -175,11 +179,12 @@ export const usePoolStore = defineStore('poolStore', () => {
   const error = ref(null)
   const createPoolError = ref(null)
   const pool = ref(null)
+  const apiUrl = import.meta.env.VITE_API_URL
 
   const joinPool = async (teamName, entryCode) => {
     try {
       isLoading.value = true
-      const response = await fetch(`http://localhost:8080/user-pool/join`, {
+      const response = await fetch(`${apiUrl}/user-pool/join`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -216,7 +221,7 @@ export const usePoolStore = defineStore('poolStore', () => {
     console.log(formData.name)
     try {
       isLoading.value = true
-      const response = await fetch(`http://localhost:8080/pool/create-pool`, {
+      const response = await fetch(`${apiUrl}/pool/create-pool`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -233,7 +238,7 @@ export const usePoolStore = defineStore('poolStore', () => {
       if (response.ok) {
         const data = await response.json()
         pool.value = data
-        router.push('/dashboard/1')
+        router.push('/dashboard/2')
         createPoolError.value = null
       } else {
         if (response && response.status === 404) {

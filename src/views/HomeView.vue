@@ -15,10 +15,10 @@ const fetchDataStore = useFetchData()
 
 onMounted(() => {
   authStore.checkTokenAndRedirect()
-  fetchDataStore.getUserPoolData()
 
   watch(() => {
     fetchDataStore.getUserPoolId()
+    fetchDataStore.getUserPoolData()
   })
 })
 
@@ -60,7 +60,6 @@ const poolData = computed(() => {
     <div class="row">
       <div class="col">
         <h1>Have a pool access code? Join a pool here</h1>
-        <button class="select-btn">Join Pool</button>
       </div>
       <div class="col">
         <JoinPoolForm />
@@ -72,7 +71,6 @@ const poolData = computed(() => {
       </div>
       <div class="col">
         <h1>If you are looking to create a new elimination pool, create a pool here.</h1>
-        <button class="select-btn">Create Pool</button>
       </div>
     </div>
   </div>

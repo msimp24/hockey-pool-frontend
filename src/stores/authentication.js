@@ -6,12 +6,14 @@ import router from '../router/index'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(null)
-
   const errorMessage = ref('')
 
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const login = async (credentials) => {
+    console.log(apiUrl)
     try {
-      const response = await axios.post('http://localhost:8080/user/login', credentials)
+      const response = await axios.post(`${apiUrl}/user/login`, credentials)
       token.value = response.data.token
       localStorage.setItem('token', token.value)
       router.go({ name: 'home' })

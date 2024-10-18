@@ -1,11 +1,17 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps(['poolData'])
 
 // Extract the pool name from the first item in poolData
 const poolName = props.poolData.length > 0 ? props.poolData[0].poolName : ''
 
 // Sort the teams by their lives in descending order
-const sortedTeams = [...props.poolData].sort((a, b) => b.lives - a.lives)
+
+const sortedTeams = computed(() => {
+  let sortedTeams = [...props.poolData].sort((a, b) => b.lives - a.lives)
+  return sortedTeams
+})
 </script>
 
 <template>

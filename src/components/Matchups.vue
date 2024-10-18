@@ -90,7 +90,7 @@ h2 {
   color: var(--secondary-dark);
 }
 h3 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 .icon {
