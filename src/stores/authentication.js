@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await axios.post(`${apiUrl}/user/login`, credentials)
       token.value = response.data.token
       localStorage.setItem('token', token.value)
+      router.go({ name: 'home' })
     } catch (err) {
       if (err.response && err.response.status === 401) {
         console.log('Login error: Invalid Username or Password')
@@ -25,8 +26,6 @@ export const useAuthStore = defineStore('auth', () => {
         console.log('Login failed:', err)
         router.push({ name: 'login' })
       }
-    } finally {
-      router.push({ name: 'home' })
     }
   }
 
