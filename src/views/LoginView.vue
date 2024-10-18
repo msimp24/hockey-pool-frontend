@@ -17,6 +17,7 @@ onMounted(() => {
 
 <template>
   <main>
+    <button @click="router.push({ name: 'profile' })">Profile Page</button>
     <div class="container">
       <div class="row">
         <div class="col">
