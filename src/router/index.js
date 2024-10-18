@@ -30,8 +30,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: ProfileView,
-      meta: { requiresAuth: true }
+      component: ProfileView
     },
     {
       path: '/dashboard/:week',
