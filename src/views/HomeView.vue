@@ -14,9 +14,9 @@ const router = useRouter()
 const fetchDataStore = useFetchData()
 
 onMounted(() => {
-  authStore.checkTokenAndRedirect()
-
   watch(() => {
+    authStore.checkTokenAndRedirect()
+
     fetchDataStore.getUserPoolId()
     fetchDataStore.getUserPoolData()
   })
