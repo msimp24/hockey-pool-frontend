@@ -72,6 +72,8 @@ export default {
       :error="passwordError"
     />
     <p class="errorMessage" v-if="store.errorMessage">{{ store.errorMessage }}</p>
+    <p v-if="store.isLoading">Please wait, logging you in..</p>
+
     <div class="center">
       <button>Submit</button>
     </div>

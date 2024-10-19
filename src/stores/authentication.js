@@ -6,6 +6,7 @@ import router from '../router/index'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(null)
+  const isLoading = ref(false)
   const errorMessage = ref('')
 
   const apiUrl = import.meta.env.VITE_API_URL
@@ -26,6 +27,8 @@ export const useAuthStore = defineStore('auth', () => {
         console.log('Login failed:', err)
         router.push({ name: 'login' })
       }
+    } finally {
+      isLoading.value = true
     }
   }
 
@@ -81,6 +84,7 @@ export const useAuthStore = defineStore('auth', () => {
     errorMessage,
     login,
     logout,
-    checkTokenAndRedirect
+    checkTokenAndRedirect,
+    isLoading
   }
 })
