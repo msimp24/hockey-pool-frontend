@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/authentication'
 import { useFetchData } from '@/stores/fetchData'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('/'),
   mode: 'hash',
   routes: [
     {
@@ -39,11 +39,6 @@ const router = createRouter({
       component: OverviewView,
       meta: { requiresAuth: true, requiresPool: true },
       props: true
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: RegisterView
     }
   ]
 })
@@ -54,37 +49,27 @@ router.beforeEach(async (to, from, next) => {
 
   try {
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-      next({ name: 'login' }) // Redirect to login if not authenticated
-    } else {
-      // Check if the route requires a pool and the userPoolId is not available
-      if (to.meta.requiresPool && !fetchDataStore.userPoolId) {
-        // Fetch the userPoolId asynchronously
-        await fetchDataStore.getUserPoolId()
+      return next({ name: 'login' })
+    }
 
-        // Check if the userPoolId was fetched successfully
-        if (fetchDataStore.userPoolId) {
-          next() // Proceed to the route if userPoolId is available
-        } else {
-          // Handle the case where userPoolId could not be fetched
-          // You might want to redirect to an error page or display a message
-          next({ name: '/' })
-        }
-      } else {
-        // Allow navigation if authenticated or route doesn't require auth
-        next()
+    if (to.meta.requiresPool && !fetchDataStore.userPoolId) {
+      await fetchDataStore.getUserPoolId()
+
+      if (!fetchDataStore.userPoolId) {
+        return next({ name: 'home' }) // Redirect to home if userPoolId not found
       }
     }
+
+    next() // Proceed if authentication or other checks pass
   } catch (error) {
+    console.error('Error:', error)
+
     if (error.response && error.response.status === 404) {
-      // Handle 403 Forbidden error
-      next({ name: '/' }) // Redirect to an unauthorized page
-    } else {
-      // Handle other errors
-      console.error('Error:', error)
-      next({ name: 'error' }) // Redirect to a general error page
+      return next({ name: 'home' })
     }
+
+    next({ name: 'error' }) // General error fallback
   }
-  // Check if the route requires authentication and the user is not authenticated
 })
 
 export default router
