@@ -39,7 +39,7 @@ const router = createRouter({
       props: true
     }
   ],
-  history: createWebHistory(import.meta.env.BASE_URL)
+  history: createWebHistory('https://hockey-pool-whco.onrender.com')
 })
 
 router.beforeEach(async (to, from, next) => {
