@@ -10,13 +10,8 @@ const fetchPicksStore = useFetchPicks()
 const fetchDataStore = useFetchData()
 const router = useRouter()
 
-//Dashboard modal
-const invalidPick = ref(false)
-const modal = ref(false)
-
 const makePick = (userPoolId, matchupId, selectedTeam, week) => {
   let isValid = true
-  modal.value = false
 
   fetchDataStore.userWeeklyPicks.forEach((el) => {
     if (el === selectedTeam) {
@@ -29,8 +24,6 @@ const makePick = (userPoolId, matchupId, selectedTeam, week) => {
     //  modal.value = true
     //invalidPick.value = true
   } else {
-    modal.value = false
-    invalidPick.value = false
     fetchPicksStore.makeWeeklyPick(userPoolId, matchupId, selectedTeam, week)
     router.go({ name: 'overview', params: { week: week } })
   }

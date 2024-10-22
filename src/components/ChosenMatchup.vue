@@ -32,7 +32,7 @@ const dynamicClass = () => {
 </script>
 
 <template>
-  <div class="wrapper" :class="dynamicClass()">
+  <div v-if="matchup" class="wrapper" :class="dynamicClass()">
     <p v-if="isLoading">Loading...</p>
 
     <div v-if="props.matchup && props.matchup.pick" class="matchup-wrapper">
