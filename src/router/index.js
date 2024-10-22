@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/authentication'
 import { useFetchData } from '@/stores/fetchData'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/login',
