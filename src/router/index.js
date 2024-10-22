@@ -8,7 +8,6 @@ import { useAuthStore } from '@/stores/authentication'
 import { useFetchData } from '@/stores/fetchData'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/login',
@@ -39,7 +38,8 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresPool: true },
       props: true
     }
-  ]
+  ],
+  history: createWebHistory(import.meta.env.BASE_URL)
 })
 
 router.beforeEach(async (to, from, next) => {
