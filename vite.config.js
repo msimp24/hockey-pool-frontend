@@ -10,5 +10,12 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    outDir: 'dist', // Specify the output directory
+    sourcemap: true, // Generate source maps for debugging
+    rollupOptions: {
+      // Customize Rollup options here
+    }
   }
 })
