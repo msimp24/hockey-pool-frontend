@@ -198,7 +198,7 @@ export const usePoolStore = defineStore('poolStore', () => {
       if (response.ok) {
         const data = await response.json()
         userPool.value = data.userPool
-        router.push('/dashboard/2')
+        router.push('/dashboard/1')
         error.value = null
       } else {
         if (response && response.status === 404) {
@@ -238,7 +238,7 @@ export const usePoolStore = defineStore('poolStore', () => {
       if (response.ok) {
         const data = await response.json()
         pool.value = data
-        router.push('/dashboard/2')
+        router.push('/dashboard/1')
         createPoolError.value = null
       } else {
         if (response && response.status === 404) {
