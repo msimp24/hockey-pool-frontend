@@ -96,7 +96,7 @@ const isWeekCompleted = computed(() => {
 <template>
   <div class="header">
     <img
-      v-if="currWeek != 2"
+      v-if="currWeek != 1"
       @click="decrementWeek"
       class="icon left"
       src="/icons/left-arrow.svg"
