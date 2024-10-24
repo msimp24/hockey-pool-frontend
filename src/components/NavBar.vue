@@ -16,7 +16,7 @@ const links = ref([
   },
   {
     name: 'Dashboard',
-    link: '/dashboard/2'
+    link: '/dashboard/1'
   }
 ])
 </script>
@@ -125,6 +125,9 @@ img {
 }
 
 @media (width < 700px) {
+  .hero h1 {
+    font-size: 34px;
+  }
   .nav {
     height: auto;
     display: flex;

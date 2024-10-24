@@ -1,7 +1,6 @@
 <script setup>
 defineProps(['matchups', 'week', 'isLoading', 'userPoolId', 'isCompleted'])
 
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useFetchPicks } from './../stores/fetchData'

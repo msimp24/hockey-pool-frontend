@@ -39,7 +39,7 @@ const router = createRouter({
       props: true
     }
   ],
-  history: createWebHistory(import.meta.env.BASE_URL)
+  history: createWebHistory(import.meta.env.API_URL)
 })
 
 router.beforeEach(async (to, from, next) => {
