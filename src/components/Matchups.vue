@@ -82,7 +82,7 @@ h2 {
   color: var(--secondary-dark);
 }
 h3 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
 }
 .icon {
@@ -106,25 +106,36 @@ h3 {
   display: none;
   margin-left: 10px;
 }
+/* Clean Button Styles */
 .select-btn {
-  background-color: var(--primary-dark);
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
   border: none;
-  border-radius: 50px;
-  padding: 8px 14px;
-  font-size: 16px;
-  color: var(--primary-white);
+  border-radius: 30px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  color: #fff;
   cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .select-btn:hover {
-  color: var(--primary-dark);
-  outline: 2px solid var(--primary-dark);
-  background: var(--primary-white);
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+  transform: scale(1.05);
 }
+
+.select-btn:active {
+  transform: scale(0.98);
+}
+
 .btn-container {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  gap: 50px;
 }
 .score {
   border-radius: 10px;

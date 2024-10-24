@@ -84,4 +84,10 @@ select {
   outline: 2px solid var(--primary-dark);
   background: var(--primary-white);
 }
+.score {
+  border-radius: 10px;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 20px;
+}
 </style>
