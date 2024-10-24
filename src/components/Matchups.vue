@@ -126,4 +126,10 @@ h3 {
   display: flex;
   justify-content: space-between;
 }
+.score {
+  border-radius: 10px;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 20px;
+}
 </style>
