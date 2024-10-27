@@ -8,9 +8,6 @@ const props = defineProps(['matchup', 'week', 'isLoading', 'isCompleted'])
     <p v-if="isLoading">Loading...</p>
 
     <!-- Check if the week is completed -->
-    <div v-else-if="isCompleted">
-      <h1>Week {{ week }} is over.</h1>
-    </div>
 
     <!-- If the week isn't completed and a pick has been made -->
     <div v-else-if="props.matchup.pick" class="matchup-wrapper">
@@ -31,6 +28,9 @@ const props = defineProps(['matchup', 'week', 'isLoading', 'isCompleted'])
       <h1>{{ props.matchup.pick.selectedTeam }}</h1>
     </div>
 
+    <div v-else-if="isCompleted">
+      <h1>Week {{ week }} is over.</h1>
+    </div>
     <!-- If the week isn't completed and no pick has been made -->
     <div v-else>
       <h1>Please select a matchup for week {{ week }}</h1>
@@ -53,6 +53,7 @@ const props = defineProps(['matchup', 'week', 'isLoading', 'isCompleted'])
 h1 {
   color: var(--secondary-dark);
   margin: 10px 0;
+  text-align: center;
 }
 
 .line {
@@ -89,5 +90,12 @@ select {
   padding: 14px;
   font-weight: 600;
   font-size: 20px;
+}
+
+@media (width < 1000px) {
+  h3 {
+    text-align: center;
+    margin: 10px 0;
+  }
 }
 </style>

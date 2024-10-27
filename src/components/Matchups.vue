@@ -143,4 +143,32 @@ h3 {
   font-weight: 600;
   font-size: 20px;
 }
+
+@media (width < 1000px) {
+  .select-btn {
+    background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+    border: none;
+    border-radius: 30px;
+    padding: 12px 18px;
+    font-size: 0.75rem;
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background-color 0.3s,
+      transform 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 10px 0;
+  }
+
+  .select-btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+    transform: scale(1.05);
+  }
+
+  .select-btn:active {
+    transform: scale(0.98);
+  }
+}
 </style>
